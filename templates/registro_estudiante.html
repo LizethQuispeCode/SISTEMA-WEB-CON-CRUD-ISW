@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Registro de interesados - Leads Tracker</title>
+  <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
+</head>
+<body>
+  <main class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex items-start justify-center py-12 px-4">
+    <div class="w-full max-w-5xl">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        <!-- Left info panel -->
+        <aside class="hidden lg:flex flex-col justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white p-10 shadow-2xl">
+          <div class="flex items-center gap-3 mb-6">
+            <svg class="w-10 h-10 bg-white/10 p-1 rounded-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L15 8H9L12 2Z" fill="white" opacity="0.9" />
+              <path d="M12 22L9 16H15L12 22Z" fill="white" opacity="0.9" />
+              <path d="M2 12L8 15V9L2 12Z" fill="white" opacity="0.9" />
+              <path d="M22 12L16 9V15L22 12Z" fill="white" opacity="0.9" />
+            </svg>
+            <div>
+              <div class="text-sm uppercase tracking-wider font-semibold">Leads Tracker</div>
+              <div class="text-xs opacity-80">Inscripciones</div>
+            </div>
+          </div>
+
+          <h2 class="text-2xl font-extrabold leading-tight">Automatiza el registro</h2>
+          <p class="mt-3 text-white/90">Registra interesados de forma rápida y sin errores. Centraliza la información y accede fácilmente a los datos.</p>
+
+          <ul class="mt-6 space-y-3 text-sm">
+            <li class="flex items-start gap-3">
+              <span class="inline-flex items-center justify-center w-6 h-6 rounded bg-white/10">✓</span>
+              Gestión centralizada
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="inline-flex items-center justify-center w-6 h-6 rounded bg-white/10">✓</span>
+              Evita errores manuales
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="inline-flex items-center justify-center w-6 h-6 rounded bg-white/10">✓</span>
+              Fácil exportación y consulta
+            </li>
+          </ul>
+
+          <div class="mt-8 text-sm text-white/80">Empieza ahora — completa el formulario y guarda los datos automáticamente.</div>
+        </aside>
+
+        <!-- Right: form card -->
+        <section class="bg-white shadow-xl rounded-2xl p-8 md:p-10">
+          <div class="mb-4 text-center lg:text-left">
+            <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900">Registra tu interés</h1>
+            <p class="mt-2 text-gray-600">Rellena el formulario y nos pondremos en contacto. Es rápido y sencillo.</p>
+          </div>
+
+          {% if resultado %}
+            <div class="mb-4">
+              {% if resultado.status == 'success' %}
+                <div class="rounded-lg border border-green-100 bg-green-50 p-4 text-green-800">{{ resultado.message }}</div>
+              {% else %}
+                <div class="rounded-lg border border-red-100 bg-red-50 p-4 text-red-800">{{ resultado.message }}</div>
+              {% endif %}
+            </div>
+          {% endif %}
+
+          <form id="registroForm" method="post" action="/api/registrar_estudiante" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
+                <input id="nombre" name="nombre" required placeholder="Ej. María" class="mt-1 block w-full rounded-lg border border-gray-200 bg-white px-3 py-3 text-sm md:text-base transition-shadow focus:outline-none focus:ring-2 focus:ring-blue-300 focus:shadow-md" autofocus />
+              </div>
+              <div>
+                <label for="apellido" class="block text-sm font-medium text-gray-700">Apellido</label>
+                <input id="apellido" name="apellido" required placeholder="Ej. Gómez" class="mt-1 block w-full rounded-lg border border-gray-200 bg-white px-3 py-3 text-sm md:text-base transition-shadow focus:outline-none focus:ring-2 focus:ring-blue-300 focus:shadow-md" />
+              </div>
+            </div>
+
+            <div>
+              <label for="correo" class="block text-sm font-medium text-gray-700">Correo electrónico</label>
+              <input id="correo" name="correo" type="email" required placeholder="tucorreo@ejemplo.com" class="mt-1 block w-full rounded-lg border border-gray-200 bg-white px-3 py-3 text-sm md:text-base transition-shadow focus:outline-none focus:ring-2 focus:ring-blue-300 focus:shadow-md" />
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono (opcional)</label>
+                <input id="telefono" name="telefono" type="tel" placeholder="987 654 321" class="mt-1 block w-full rounded-lg border border-gray-200 bg-white px-3 py-3 text-sm md:text-base transition-shadow focus:outline-none focus:ring-2 focus:ring-blue-300 focus:shadow-md" />
+              </div>
+              <div>
+                <label for="curso" class="block text-sm font-medium text-gray-700">Curso de interés</label>
+                <input id="curso" name="curso" required placeholder="Ej. Electricidad Básica" class="mt-1 block w-full rounded-lg border border-gray-200 bg-white px-3 py-3 text-sm md:text-base transition-shadow focus:outline-none focus:ring-2 focus:ring-blue-300 focus:shadow-md" />
+              </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+              <p class="text-sm text-gray-500 max-w-xs">Al enviar aceptas que guardemos tus datos para contactarte.</p>
+              <button type="submit" class="ml-0 md:ml-4 w-full md:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold px-5 py-3 rounded-lg shadow-lg transition-transform transform hover:-translate-y-0.5 mb-4 md:mb-0">Registrar</button>
+            </div>
+          </form>
+        </section>
+      </div>
+      <!-- Listado de estudiantes (llenado por JS) -->
+      <section id="estudiantesSection" class="mt-10 bg-white shadow-lg rounded-lg p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-semibold text-gray-900">Interesados registrados</h3>
+          <p id="totalCount" class="text-sm text-gray-500">Cargando...</p>
+        </div>
+        <div id="estudiantesList" class="space-y-3"> 
+          <!-- JS will render rows here -->
+        </div>
+      </section>
+
+      <footer class="mt-8 text-center text-sm text-gray-500">Proyecto Leads Tracker — Registro automatizado</footer>
+    </div>
+  </main>
+
+  <script src="{{ url_for('static', filename='js/form.js') }}"></script>
+</body>
+</html>

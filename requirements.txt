@@ -1,0 +1,8 @@
+# Requirements for Leads Tracker
+Flask>=2.2,<3
+mysql-connector-python>=8.0
+gunicorn>=20.1
+python-dotenv>=1.0
+
+# Optional / dev
+# If you use Tailwind CLI or other node tools, install Node.js separately.
